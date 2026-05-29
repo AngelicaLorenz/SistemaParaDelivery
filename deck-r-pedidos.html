@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Deck R – Faça seu Pedido</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --green:#1a6b2f;
+    --green-dark:#0e4a1f;
+    --green-light:#2d9248;
+    --yellow:#f5c800;
+    --yellow-dark:#c9a300;
+    --cream:#f5f0e8;
+    --cream-dark:#ede6d4;
+    --white:#fff;
+    --text:#1a1a1a;
+    --text-muted:#555;
+    --radius:14px;
+    --shadow:0 4px 20px rgba(0,0,0,0.10);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    font-family:'Nunito',sans-serif;
+    color:var(--text);
+    max-width:430px;
+    margin:0 auto;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* NAV */
+  nav{
+    background:var(--green-dark);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 18px;
+    position:sticky;
+    top:0;
+    z-index:100;
+    box-shadow:0 2px 10px rgba(0,0,0,0.3);
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo-circle{
+    width:36px;height:36px;
+    border:2px solid var(--yellow);
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:var(--yellow);
+  }
+  .logo-text{
+    font-family:'Bebas Neue',cursive;
+    font-size:22px;
+    color:var(--white);
+    letter-spacing:2px;
+  }
+  .nav-links{
+    display:flex;gap:6px;
+  }
+  .nav-btn{
+    background:none;border:none;
+    color:rgba(255,255,255,0.75);
+    font-family:'Nunito',sans-serif;
+    font-size:12px;font-weight:700;
+    padding:6px 10px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:all .2s;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  .nav-btn:hover,.nav-btn.active{
+    background:rgba(255,255,255,0.15);
+    color:var(--yellow);
+  }
+  .cart-btn{
+    background:var(--yellow);
+    color:var(--green-dark)!important;
+    border-radius:20px;
+    padding:6px 14px!important;
+    font-weight:900!important;
+    position:relative;
+  }
+  .cart-badge{
+    position:absolute;
+    top:-6px;right:-6px;
+    background:var(--green);
+    color:white;
+    font-size:10px;
+    font-weight:900;
+    width:18px;height:18px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    display:none;
+  }
+
+  /* HERO BANNER */
+  #home{
+    background:var(--green);
+    padding:28px 20px 20px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  #home::before{
+    content:'';
+    position:absolute;
+    bottom:-30px;left:-20px;right:-20px;
+    height:60px;
+    background:var(--cream);
+    border-radius:50% 50% 0 0;
+  }
+  .hero-tag{
+    background:var(--yellow);
+    color:var(--green-dark);
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    padding:4px 14px;
+    border-radius:20px;
+    display:inline-block;
+    margin-bottom:10px;
+  }
+  .hero-title{
+    font-family:'Bebas Neue',cursive;
+    font-size:48px;
+    color:var(--yellow);
+    line-height:1;
+    letter-spacing:2px;
+    text-shadow:2px 2px 0 rgba(0,0,0,0.2);
+  }
+  .hero-sub{
+    color:rgba(255,255,255,0.85);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:1px;
+    margin:6px 0 16px;
+    text-transform:uppercase;
+  }
+  .promo-card{
+    background:var(--green-dark);
+    border:2px solid var(--yellow);
+    border-radius:16px;
+    padding:16px;
+    margin:0 0 30px;
+    cursor:pointer;
+    transition:transform .2s,box-shadow .2s;
+    position:relative;
+    z-index:1;
+  }
+  .promo-card:hover{transform:scale(1.02)}
+  .promo-card:active{transform:scale(0.98)}
+  .promo-label{
+    background:var(--yellow);
+    color:var(--green-dark);
+    font-size:10px;font-weight:900;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    padding:3px 10px;
+    border-radius:20px;
+    display:inline-block;
+    margin-bottom:8px;
+  }
+  .promo-title{
+    font-family:'Bebas Neue',cursive;
+    font-size:26px;
+    color:var(--yellow);
+    line-height:1.1;
+  }
+  .promo-desc{
+    color:rgba(255,255,255,0.8);
+    font-size:12px;
+    font-weight:600;
+    margin:4px 0 10px;
+  }
+  .promo-cta{
+    background:var(--yellow);
+    color:var(--green-dark);
+    border:none;
+    padding:8px 20px;
+    border-radius:20px;
+    font-family:'Nunito',sans-serif;
+    font-weight:900;
+    font-size:13px;
+    cursor:pointer;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  .horario{
+    color:rgba(255,255,255,0.6);
+    font-size:12px;
+    font-weight:700;
+    margin-top:8px;
+    position:relative;z-index:1;
+  }
+
+  /* SECTION TITLES */
+  .section{padding:28px 20px}
+  .section-header{
+    display:flex;align-items:center;gap:10px;
+    margin-bottom:20px;
+  }
+  .section-icon{
+    width:40px;height:40px;
+    background:var(--green);
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+  }
+  .section-title{
+    font-family:'Bebas Neue',cursive;
+    font-size:28px;
+    color:var(--green-dark);
+    letter-spacing:1px;
+    line-height:1;
+  }
+  .section-step{
+    font-size:12px;
+    color:var(--green);
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+
+  /* SIZE CARDS */
+  .size-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .size-card{
+    background:var(--white);
+    border:2.5px solid transparent;
+    border-radius:var(--radius);
+    padding:14px 12px;
+    cursor:pointer;
+    transition:all .2s;
+    box-shadow:0 2px 8px rgba(0,0,0,0.07);
+    position:relative;
+  }
+  .size-card.selected{
+    border-color:var(--green);
+    background:#f0faf3;
+    box-shadow:0 4px 16px rgba(26,107,47,0.2);
+  }
+  .size-card:active{transform:scale(0.97)}
+  .size-name{
+    font-family:'Bebas Neue',cursive;
+    font-size:22px;
+    color:var(--green-dark);
+    letter-spacing:1px;
+  }
+  .size-info{
+    font-size:10px;
+    color:var(--text-muted);
+    font-weight:700;
+    margin:2px 0 8px;
+    text-transform:uppercase;
+    letter-spacing:.3px;
+  }
+  .size-price{
+    font-size:11px;
+    color:var(--text-muted);
+    font-weight:700;
+  }
+  .size-price span{
+    color:var(--green);
+    font-size:14px;
+    font-weight:900;
+  }
+  .size-badge{
+    position:absolute;
+    top:8px;right:8px;
+    background:var(--yellow);
+    color:var(--green-dark);
+    font-size:9px;font-weight:900;
+    padding:2px 6px;
+    border-radius:8px;
+    text-transform:uppercase;
+    letter-spacing:.3px;
+  }
+  .size-check{
+    position:absolute;
+    top:-1px;right:-1px;
+    width:22px;height:22px;
+    background:var(--green);
+    border-radius:0 12px 0 10px;
+    display:none;
+    align-items:center;justify-content:center;
+    font-size:12px;color:white;
+  }
+  .size-card.selected .size-check{display:flex}
+
+  /* RECHEIO */
+  .recheio-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .recheio-card{
+    background:var(--white);
+    border:2.5px solid transparent;
+    border-radius:var(--radius);
+    padding:16px 14px;
+    cursor:pointer;
+    transition:all .2s;
+    box-shadow:0 2px 8px rgba(0,0,0,0.07);
+    text-align:center;
+  }
+  .recheio-card.selected{
+    border-color:var(--green);
+    background:#f0faf3;
+  }
+  .recheio-card:active{transform:scale(0.97)}
+  .recheio-emoji{font-size:28px;margin-bottom:6px}
+  .recheio-name{
+    font-family:'Bebas Neue',cursive;
+    font-size:17px;
+    color:var(--green-dark);
+    letter-spacing:1px;
+    margin-bottom:4px;
+  }
+  .recheio-price{
+    font-size:20px;
+    font-weight:900;
+    color:var(--green);
+  }
+  .recheio-desc{
+    font-size:10px;
+    color:var(--text-muted);
+    font-weight:600;
+    margin-top:2px;
+  }
+
+  /* SABORES */
+  #sabores{background:var(--cream-dark);padding:24px 20px}
+  .sabores-counter{
+    background:var(--green);
+    color:var(--white);
+    padding:10px 16px;
+    border-radius:12px;
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:16px;
+  }
+  .counter-text{font-size:13px;font-weight:700}
+  .counter-num{
+    font-family:'Bebas Neue',cursive;
+    font-size:24px;
+    color:var(--yellow);
+  }
+  .sabores-tabs{
+    display:flex;gap:8px;
+    margin-bottom:16px;
+    overflow-x:auto;
+    padding-bottom:4px;
+    scrollbar-width:none;
+  }
+  .sabores-tabs::-webkit-scrollbar{display:none}
+  .tab-btn{
+    background:var(--white);
+    border:2px solid transparent;
+    padding:7px 14px;
+    border-radius:20px;
+    font-family:'Nunito',sans-serif;
+    font-size:12px;font-weight:800;
+    cursor:pointer;
+    white-space:nowrap;
+    transition:all .2s;
+    color:var(--text-muted);
+    text-transform:uppercase;
+    letter-spacing:.3px;
+  }
+  .tab-btn.active{
+    background:var(--green);
+    color:var(--white);
+    border-color:var(--green);
+  }
+  .search-wrap{
+    position:relative;margin-bottom:14px;
+  }
+  .search-input{
+    width:100%;
+    padding:10px 14px 10px 38px;
+    border:2px solid var(--cream-dark);
+    border-radius:12px;
+    font-family:'Nunito',sans-serif;
+    font-size:14px;
+    background:var(--white);
+    outline:none;
+    transition:border .2s;
+  }
+  .search-input:focus{border-color:var(--green)}
+  .search-icon{
+    position:absolute;
+    left:12px;top:50%;
+    transform:translateY(-50%);
+    font-size:16px;color:var(--text-muted);
+  }
+  .sabores-list{
+    display:grid;
+    gap:8px;
+    max-height:340px;
+    overflow-y:auto;
+    padding-right:4px;
+  }
+  .sabor-item{
+    background:var(--white);
+    border:2.5px solid transparent;
+    border-radius:12px;
+    padding:12px 14px;
+    cursor:pointer;
+    transition:all .18s;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+  }
+  .sabor-item.selected{
+    border-color:var(--green);
+    background:#f0faf3;
+  }
+  .sabor-item.disabled{
+    opacity:.45;
+    cursor:not-allowed;
+  }
+  .sabor-item:active:not(.disabled){transform:scale(0.98)}
+  .sabor-name{
+    font-size:13px;
+    font-weight:800;
+    color:var(--text);
+    flex:1;
+  }
+  .sabor-cat{
+    font-size:10px;
+    color:var(--text-muted);
+    font-weight:600;
+    margin-top:2px;
+  }
+  .sabor-check{
+    width:22px;height:22px;
+    border-radius:50%;
+    border:2px solid var(--cream-dark);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    transition:all .18s;
+    font-size:12px;
+  }
+  .sabor-item.selected .sabor-check{
+    background:var(--green);
+    border-color:var(--green);
+    color:white;
+  }
+
+  /* BORDA */
+  .borda-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:8px;
+  }
+  .borda-card{
+    background:var(--white);
+    border:2.5px solid transparent;
+    border-radius:12px;
+    padding:12px 8px;
+    cursor:pointer;
+    text-align:center;
+    transition:all .2s;
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  }
+  .borda-card.selected{
+    border-color:var(--green);
+    background:#f0faf3;
+  }
+  .borda-emoji{font-size:22px;margin-bottom:4px}
+  .borda-name{font-size:11px;font-weight:800;color:var(--green-dark)}
+  .borda-price{font-size:11px;font-weight:700;color:var(--green);margin-top:2px}
+
+  /* BEBIDAS */
+  .bebidas-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+  }
+  .bebida-card{
+    background:var(--white);
+    border:2.5px solid transparent;
+    border-radius:12px;
+    padding:14px 12px;
+    cursor:pointer;
+    transition:all .2s;
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+    display:flex;align-items:center;gap:10px;
+  }
+  .bebida-card.selected{
+    border-color:var(--green);background:#f0faf3;
+  }
+  .bebida-emoji{font-size:24px;flex-shrink:0}
+  .bebida-name{font-size:13px;font-weight:800;color:var(--text)}
+  .bebida-price{font-size:12px;font-weight:700;color:var(--green)}
+  .bebida-qty{
+    display:flex;align-items:center;gap:6px;
+    margin-top:4px;
+  }
+  .qty-btn{
+    width:22px;height:22px;
+    background:var(--green);
+    color:white;
+    border:none;
+    border-radius:50%;
+    font-size:16px;font-weight:900;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    line-height:1;
+  }
+  .qty-num{font-size:13px;font-weight:900;min-width:16px;text-align:center}
+
+  /* ENTREGA */
+  .entrega-opts{
+    display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;
+  }
+  .entrega-card{
+    background:var(--white);
+    border:2.5px solid transparent;
+    border-radius:14px;
+    padding:16px;
+    cursor:pointer;
+    text-align:center;
+    transition:all .2s;
+    box-shadow:0 2px 8px rgba(0,0,0,0.07);
+  }
+  .entrega-card.selected{border-color:var(--green);background:#f0faf3}
+  .entrega-emoji{font-size:28px;margin-bottom:6px}
+  .entrega-name{font-family:'Bebas Neue',cursive;font-size:18px;color:var(--green-dark);letter-spacing:1px}
+  .entrega-desc{font-size:10px;color:var(--text-muted);font-weight:600;margin-top:2px}
+
+  /* FORM */
+  .form-group{margin-bottom:14px}
+  .form-label{
+    font-size:12px;font-weight:800;
+    color:var(--green-dark);
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    margin-bottom:6px;
+    display:block;
+  }
+  .form-input,.form-select{
+    width:100%;
+    padding:12px 14px;
+    border:2px solid var(--cream-dark);
+    border-radius:12px;
+    font-family:'Nunito',sans-serif;
+    font-size:14px;
+    background:var(--white);
+    outline:none;
+    transition:border .2s;
+    color:var(--text);
+  }
+  .form-input:focus,.form-select:focus{border-color:var(--green)}
+  .form-row{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+  .form-row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+  /* PAGAMENTO */
+  .pag-grid{display:grid;gap:10px}
+  .pag-card{
+    background:var(--white);
+    border:2.5px solid transparent;
+    border-radius:12px;
+    padding:14px 16px;
+    cursor:pointer;
+    display:flex;align-items:center;gap:14px;
+    transition:all .2s;
+    box-shadow:0 2px 6px rgba(0,0,0,0.06);
+  }
+  .pag-card.selected{border-color:var(--green);background:#f0faf3}
+  .pag-emoji{font-size:24px}
+  .pag-name{font-size:14px;font-weight:800;color:var(--text)}
+  .pag-desc{font-size:11px;color:var(--text-muted);font-weight:600}
+  .pag-radio{
+    width:18px;height:18px;border-radius:50%;
+    border:2px solid var(--cream-dark);
+    margin-left:auto;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;
+  }
+  .pag-card.selected .pag-radio{
+    background:var(--green);border-color:var(--green);
+  }
+  .pag-card.selected .pag-radio::after{
+    content:'';width:7px;height:7px;background:white;border-radius:50%;
+  }
+  .troco-wrap{
+    display:none;
+    margin-top:10px;
+  }
+  .troco-wrap.show{display:block}
+
+  /* REVISÃO */
+  .revisao-card{
+    background:var(--white);
+    border-radius:16px;
+    padding:18px;
+    box-shadow:var(--shadow);
+    margin-bottom:16px;
+  }
+  .revisao-title{
+    font-family:'Bebas Neue',cursive;
+    font-size:18px;color:var(--green-dark);
+    letter-spacing:1px;margin-bottom:12px;
+    border-bottom:2px dashed var(--cream-dark);
+    padding-bottom:8px;
+  }
+  .revisao-row{
+    display:flex;justify-content:space-between;
+    align-items:baseline;
+    padding:5px 0;
+    border-bottom:1px solid var(--cream);
+    font-size:13px;
+  }
+  .revisao-row:last-child{border:none}
+  .revisao-key{color:var(--text-muted);font-weight:700}
+  .revisao-val{font-weight:800;color:var(--text);text-align:right;max-width:55%}
+  .total-row{
+    display:flex;justify-content:space-between;
+    align-items:center;
+    background:var(--green-dark);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:16px;
+  }
+  .total-label{font-family:'Bebas Neue',cursive;font-size:22px;color:var(--white);letter-spacing:1px}
+  .total-val{font-family:'Bebas Neue',cursive;font-size:28px;color:var(--yellow)}
+
+  /* AVISO PAGAMENTO */
+  .aviso-pag{
+    background:#fff8e1;
+    border:2px solid var(--yellow);
+    border-radius:12px;
+    padding:14px;
+    margin-bottom:16px;
+    display:flex;gap:10px;align-items:flex-start;
+  }
+  .aviso-icon{font-size:20px;flex-shrink:0}
+  .aviso-text{font-size:12px;font-weight:700;color:#7a5c00;line-height:1.5}
+
+  /* WHATSAPP BTN */
+  .whatsapp-btn{
+    width:100%;
+    background:#25d366;
+    color:white;
+    border:none;
+    padding:18px;
+    border-radius:16px;
+    font-family:'Bebas Neue',cursive;
+    font-size:22px;
+    letter-spacing:2px;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    transition:all .2s;
+    box-shadow:0 6px 20px rgba(37,211,102,0.35);
+  }
+  .whatsapp-btn:hover{background:#1ebe5d;transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,211,102,0.45)}
+  .whatsapp-btn:active{transform:translateY(0)}
+
+  /* NEXT BTN */
+  .next-btn{
+    width:100%;
+    background:var(--green);
+    color:white;
+    border:none;
+    padding:16px;
+    border-radius:14px;
+    font-family:'Bebas Neue',cursive;
+    font-size:20px;
+    letter-spacing:1.5px;
+    cursor:pointer;
+    margin-top:20px;
+    transition:all .2s;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .next-btn:hover{background:var(--green-light);transform:translateY(-1px)}
+  .next-btn:active{transform:scale(0.98)}
+  .next-btn:disabled{background:#aaa;cursor:not-allowed;transform:none}
+
+  /* STEP INDICATOR */
+  .steps-bar{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    padding:16px 20px 0;
+  }
+  .step-dot{
+    height:4px;border-radius:2px;
+    background:var(--cream-dark);
+    transition:all .3s;
+  }
+  .step-dot.done{background:var(--green-light);flex:1}
+  .step-dot.active{background:var(--green);flex:2}
+  .step-dot.pending{flex:1}
+
+  /* SECTION DIVIDER */
+  .divider{
+    height:6px;
+    background:linear-gradient(to right,var(--green-dark),var(--green));
+    margin:0 -20px;
+  }
+
+  /* SCROLL SECTIONS */
+  .flow-section{
+    animation:fadeIn .4s ease;
+  }
+  @keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+  /* HIDDEN */
+  .hidden{display:none!important}
+
+  /* TOAST */
+  .toast{
+    position:fixed;
+    bottom:80px;left:50%;transform:translateX(-50%);
+    background:var(--green-dark);
+    color:white;
+    padding:10px 20px;
+    border-radius:20px;
+    font-size:13px;font-weight:700;
+    z-index:999;
+    animation:toastIn .3s ease;
+    white-space:nowrap;
+    box-shadow:0 4px 16px rgba(0,0,0,0.2);
+  }
+  @keyframes toastIn{from{opacity:0;bottom:60px}to{opacity:1;bottom:80px}}
+
+  /* MINI badge */
+  .mini-only{
+    background:var(--yellow);
+    color:var(--green-dark);
+    font-size:9px;font-weight:900;
+    padding:2px 7px;border-radius:10px;
+    display:inline-block;margin-left:4px;
+    text-transform:uppercase;
+    vertical-align:middle;
+  }
+
+  /* PROGRESS pizzas */
+  .progress-bar-wrap{
+    height:8px;
+    background:var(--cream-dark);
+    border-radius:4px;
+    margin-top:8px;
+    overflow:hidden;
+  }
+  .progress-bar{
+    height:100%;
+    background:var(--green);
+    border-radius:4px;
+    transition:width .3s;
+  }
+
+  /* Oferta ativa badge */
+  .oferta-badge{
+    background:var(--yellow);
+    color:var(--green-dark);
+    font-size:11px;font-weight:900;
+    padding:4px 12px;
+    border-radius:20px;
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    margin-bottom:12px;
+  }
+
+  footer{
+    background:var(--green-dark);
+    color:rgba(255,255,255,0.55);
+    text-align:center;
+    padding:20px;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.5px;
+  }
+  footer span{color:var(--yellow)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <div class="logo-circle">🍕</div>
+    <div class="logo-text">DECK R</div>
+  </div>
+  <div class="nav-links">
+    <button class="nav-btn active" onclick="scrollTo(0,0)">Home</button>
+    <button class="nav-btn" onclick="document.getElementById('secTamanho').scrollIntoView({behavior:'smooth'})">Cardápio</button>
+    <button class="nav-btn cart-btn" onclick="document.getElementById('secRevisao').scrollIntoView({behavior:'smooth'})">
+      🛒 Pedido
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- STEPS BAR -->
+<div class="steps-bar" id="stepsBar">
+  <div class="step-dot active" id="sd1"></div>
+  <div class="step-dot pending" id="sd2"></div>
+  <div class="step-dot pending" id="sd3"></div>
+  <div class="step-dot pending" id="sd4"></div>
+  <div class="step-dot pending" id="sd5"></div>
+  <div class="step-dot pending" id="sd6"></div>
+  <div class="step-dot pending" id="sd7"></div>
+  <div class="step-dot pending" id="sd8"></div>
+</div>
+
+<!-- HERO / HOME -->
+<section id="home">
+  <div class="hero-tag">✨ Terça a Domingo · 17h30 às 23h</div>
+  <div class="hero-title">CARDÁPIO</div>
+  <div class="hero-sub">Ingredientes selecionados · Sabor marcante</div>
+
+  <div class="promo-card" onclick="ativarOferta()" id="promoCard">
+    <div class="promo-label">🔥 Oferta do Dia</div>
+    <div class="promo-title">PIZZA GIGANTE<br>+ RECHEIO</div>
+    <div class="promo-desc">45cm · 16 fatias · 4 sabores por R$ 140,00</div>
+    <button class="promo-cta">👆 Ativar Oferta</button>
+  </div>
+</section>
+
+<!-- TAMANHO -->
+<section class="section flow-section" id="secTamanho">
+  <div class="section-header">
+    <div class="section-icon">📏</div>
+    <div>
+      <div class="section-step">Passo 1</div>
+      <div class="section-title">ESCOLHA O TAMANHO</div>
+    </div>
+  </div>
+
+  <div id="ofertaAtivaBanner" class="hidden">
+    <div class="oferta-badge">🎉 Oferta ativada: Gigante + Recheio — R$ 140,00</div>
+  </div>
+
+  <div class="size-grid" id="sizeGrid">
+    <div class="size-card" onclick="selecionarTamanho('mini')" data-size="mini">
+      <div class="size-badge">MINI</div>
+      <div class="size-check">✓</div>
+      <div class="size-name">MINI</div>
+      <div class="size-info">20 cm · 4 fatias · 1 sabor</div>
+      <div class="size-price">Tradicional: <span>R$ 8</span></div>
+    </div>
+    <div class="size-card" onclick="selecionarTamanho('broto')" data-size="broto">
+      <div class="size-check">✓</div>
+      <div class="size-name">BROTO</div>
+      <div class="size-info">20 cm · 4 fatias · 1 sabor</div>
+      <div class="size-price">A partir de <span>R$ 34</span></div>
+    </div>
+    <div class="size-card" onclick="selecionarTamanho('pequena')" data-size="pequena">
+      <div class="size-check">✓</div>
+      <div class="size-name">PEQUENA</div>
+      <div class="size-info">25 cm · 6 fatias · 2 sabores</div>
+      <div class="size-price">A partir de <span>R$ 45</span></div>
+    </div>
+    <div class="size-card" onclick="selecionarTamanho('media')" data-size="media">
+      <div class="size-check">✓</div>
+      <div class="size-name">MÉDIA</div>
+      <div class="size-info">30 cm · 8 fatias · 2 sabores</div>
+      <div class="size-price">A partir de <span>R$ 60</span></div>
+    </div>
+    <div class="size-card" onclick="selecionarTamanho('grande')" data-size="grande">
+      <div class="size-check">✓</div>
+      <div class="size-name">GRANDE</div>
+      <div class="size-info">35 cm · 12 fatias · 3 sabores</div>
+      <div class="size-price">A partir de <span>R$ 75</span></div>
+    </div>
+    <div class="size-card" onclick="selecionarTamanho('gigante')" data-size="gigante">
+      <div class="size-badge">TOP</div>
+      <div class="size-check">✓</div>
+      <div class="size-name">GIGANTE</div>
+      <div class="size-info">45 cm · 16 fatias · 4 sabores</div>
+      <div class="size-price">A partir de <span>R$ 85</span></div>
+    </div>
+  </div>
+  <button class="next-btn" id="btnTamanho" disabled onclick="scrollToSection('secRecheio')">
+    PRÓXIMO: TIPO DE RECHEIO →
+  </button>
+</section>
+
+<!-- RECHEIO -->
+<section class="section flow-section hidden" id="secRecheio">
+  <div class="section-header">
+    <div class="section-icon">🧀</div>
+    <div>
+      <div class="section-step">Passo 2</div>
+      <div class="section-title">TIPO DE RECHEIO</div>
+    </div>
+  </div>
+  <div class="recheio-grid" id="recheioGrid">
+    <div class="recheio-card" onclick="selecionarRecheio('tradicional')" data-recheio="tradicional">
+      <div class="recheio-emoji">🍕</div>
+      <div class="recheio-name">TRADICIONAL</div>
+      <div class="recheio-price" id="preco_trad">R$ —</div>
+      <div class="recheio-desc">Recheio padrão</div>
+    </div>
+    <div class="recheio-card" id="cardMaisRecheio" onclick="selecionarRecheio('mais_recheio')" data-recheio="mais_recheio">
+      <div class="recheio-emoji">🧀</div>
+      <div class="recheio-name">+ RECHEIO</div>
+      <div class="recheio-price" id="preco_mais">R$ —</div>
+      <div class="recheio-desc">Recheio extra generoso</div>
+    </div>
+  </div>
+  <button class="next-btn" id="btnRecheio" disabled onclick="scrollToSection('sabores')">
+    PRÓXIMO: ESCOLHER SABORES →
+  </button>
+</section>
+
+<!-- SABORES -->
+<section class="flow-section hidden" id="sabores">
+  <div style="padding:24px 20px 10px;background:var(--cream-dark)">
+    <div class="section-header">
+      <div class="section-icon">🌟</div>
+      <div>
+        <div class="section-step">Passo 3</div>
+        <div class="section-title">ESCOLHA OS SABORES</div>
+      </div>
+    </div>
+    <div class="sabores-counter">
+      <div>
+        <div class="counter-text">Sabores selecionados</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.7);font-weight:600" id="limiteInfo">Máx. — sabores</div>
+      </div>
+      <div class="counter-num" id="contSabores">0 / —</div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div class="sabores-tabs" id="saboresTabs" style="margin-top:16px">
+      <button class="tab-btn active" onclick="filtrarSabores('todos')">Todos</button>
+      <button class="tab-btn" onclick="filtrarSabores('tradicionais')">Tradicionais</button>
+      <button class="tab-btn" onclick="filtrarSabores('especiais')">Especiais</button>
+      <button class="tab-btn" onclick="filtrarSabores('doces')">Doces</button>
+    </div>
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" type="text" placeholder="Buscar sabor..." id="searchSabor" oninput="buscarSabor(this.value)">
+    </div>
+  </div>
+  <div style="padding:10px 20px 20px;background:var(--cream-dark)">
+    <div class="sabores-list" id="saboresList"></div>
+    <button class="next-btn" id="btnSabores" disabled onclick="scrollToSection('secBorda')" style="margin-top:16px">
+      PRÓXIMO: BORDA RECHEADA →
+    </button>
+  </div>
+</section>
+
+<!-- BORDA -->
+<section class="section flow-section hidden" id="secBorda">
+  <div class="section-header">
+    <div class="section-icon">🫓</div>
+    <div>
+      <div class="section-step">Passo 4</div>
+      <div class="section-title">BORDA RECHEADA?</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--text-muted);font-weight:600;margin-bottom:16px">Acréscimo de R$ 10,00 a R$ 20,00 conforme o tipo.</p>
+  <div class="borda-grid" id="bordaGrid">
+    <div class="borda-card selected" onclick="selecionarBorda('sem')" data-borda="sem">
+      <div class="borda-emoji">🚫</div>
+      <div class="borda-name">Sem borda</div>
+      <div class="borda-price">Grátis</div>
+    </div>
+    <div class="borda-card" onclick="selecionarBorda('calabresa')" data-borda="calabresa">
+      <div class="borda-emoji">🌶️</div>
+      <div class="borda-name">Calabresa</div>
+      <div class="borda-price">+ R$ 10</div>
+    </div>
+    <div class="borda-card" onclick="selecionarBorda('catupiry')" data-borda="catupiry">
+      <div class="borda-emoji">🧀</div>
+      <div class="borda-name">Catupiry</div>
+      <div class="borda-price">+ R$ 15</div>
+    </div>
+    <div class="borda-card" onclick="selecionarBorda('cheddar')" data-borda="cheddar">
+      <div class="borda-emoji">🧡</div>
+      <div class="borda-name">Cheddar</div>
+      <div class="borda-price">+ R$ 15</div>
+    </div>
+    <div class="borda-card" onclick="selecionarBorda('mussarela')" data-borda="mussarela">
+      <div class="borda-emoji">⬜</div>
+      <div class="borda-name">Mussarela</div>
+      <div class="borda-price">+ R$ 12</div>
+    </div>
+    <div class="borda-card" onclick="selecionarBorda('choc_preto')" data-borda="choc_preto">
+      <div class="borda-emoji">🍫</div>
+      <div class="borda-name">Choc. Preto</div>
+      <div class="borda-price">+ R$ 20</div>
+    </div>
+    <div class="borda-card" onclick="selecionarBorda('choc_branco')" data-borda="choc_branco">
+      <div class="borda-emoji">🤍</div>
+      <div class="borda-name">Choc. Branco</div>
+      <div class="borda-price">+ R$ 20</div>
+    </div>
+  </div>
+  <button class="next-btn" onclick="scrollToSection('secBebidas')">
+    PRÓXIMO: BEBIDAS →
+  </button>
+</section>
+
+<!-- BEBIDAS -->
+<section class="section flow-section hidden" id="secBebidas">
+  <div class="section-header">
+    <div class="section-icon">🥤</div>
+    <div>
+      <div class="section-step">Passo 5</div>
+      <div class="section-title">BEBIDAS</div>
+    </div>
+  </div>
+  <p style="font-size:13px;color:var(--text-muted);font-weight:600;margin-bottom:16px">Opcional — adicione bebidas ao pedido</p>
+  <div class="bebidas-grid" id="bebidasGrid">
+    <div class="bebida-card" data-beb="coca_lata">
+      <div class="bebida-emoji">🥫</div>
+      <div>
+        <div class="bebida-name">Coca-Cola Lata</div>
+        <div class="bebida-price">R$ 6,00</div>
+        <div class="bebida-qty">
+          <button class="qty-btn" onclick="ajBeb('coca_lata',-1)">−</button>
+          <span class="qty-num" id="qb_coca_lata">0</span>
+          <button class="qty-btn" onclick="ajBeb('coca_lata',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="bebida-card" data-beb="coca_2l">
+      <div class="bebida-emoji">🍶</div>
+      <div>
+        <div class="bebida-name">Coca-Cola 2L</div>
+        <div class="bebida-price">R$ 12,00</div>
+        <div class="bebida-qty">
+          <button class="qty-btn" onclick="ajBeb('coca_2l',-1)">−</button>
+          <span class="qty-num" id="qb_coca_2l">0</span>
+          <button class="qty-btn" onclick="ajBeb('coca_2l',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="bebida-card" data-beb="agua">
+      <div class="bebida-emoji">💧</div>
+      <div>
+        <div class="bebida-name">Água Mineral</div>
+        <div class="bebida-price">R$ 4,00</div>
+        <div class="bebida-qty">
+          <button class="qty-btn" onclick="ajBeb('agua',-1)">−</button>
+          <span class="qty-num" id="qb_agua">0</span>
+          <button class="qty-btn" onclick="ajBeb('agua',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="bebida-card" data-beb="suco">
+      <div class="bebida-emoji">🧃</div>
+      <div>
+        <div class="bebida-name">Suco Natural</div>
+        <div class="bebida-price">R$ 8,00</div>
+        <div class="bebida-qty">
+          <button class="qty-btn" onclick="ajBeb('suco',-1)">−</button>
+          <span class="qty-num" id="qb_suco">0</span>
+          <button class="qty-btn" onclick="ajBeb('suco',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="bebida-card" data-beb="cerveja">
+      <div class="bebida-emoji">🍺</div>
+      <div>
+        <div class="bebida-name">Cerveja Long Neck</div>
+        <div class="bebida-price">R$ 9,00</div>
+        <div class="bebida-qty">
+          <button class="qty-btn" onclick="ajBeb('cerveja',-1)">−</button>
+          <span class="qty-num" id="qb_cerveja">0</span>
+          <button class="qty-btn" onclick="ajBeb('cerveja',1)">+</button>
+        </div>
+      </div>
+    </div>
+    <div class="bebida-card" data-beb="energetico">
+      <div class="bebida-emoji">⚡</div>
+      <div>
+        <div class="bebida-name">Energético</div>
+        <div class="bebida-price">R$ 10,00</div>
+        <div class="bebida-qty">
+          <button class="qty-btn" onclick="ajBeb('energetico',-1)">−</button>
+          <span class="qty-num" id="qb_energetico">0</span>
+          <button class="qty-btn" onclick="ajBeb('energetico',1)">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="next-btn" onclick="scrollToSection('secEntrega')">
+    PRÓXIMO: ENTREGA OU RETIRADA →
+  </button>
+</section>
+
+<!-- ENTREGA -->
+<section class="section flow-section hidden" id="secEntrega">
+  <div class="section-header">
+    <div class="section-icon">🏠</div>
+    <div>
+      <div class="section-step">Passo 6</div>
+      <div class="section-title">ENTREGA OU RETIRADA?</div>
+    </div>
+  </div>
+  <div class="entrega-opts">
+    <div class="entrega-card" onclick="selecionarEntrega('entrega')" data-ent="entrega">
+      <div class="entrega-emoji">🛵</div>
+      <div class="entrega-name">ENTREGA</div>
+      <div class="entrega-desc">Taxa conforme bairro</div>
+    </div>
+    <div class="entrega-card" onclick="selecionarEntrega('retirada')" data-ent="retirada">
+      <div class="entrega-emoji">🏪</div>
+      <div class="entrega-name">RETIRADA</div>
+      <div class="entrega-desc">No estabelecimento</div>
+    </div>
+  </div>
+
+  <!-- FORM DADOS -->
+  <div id="formDados">
+    <div class="form-group">
+      <label class="form-label">👤 Nome completo</label>
+      <input class="form-input" type="text" id="fNome" placeholder="Seu nome">
+    </div>
+    <div class="form-group">
+      <label class="form-label">📱 Telefone (WhatsApp)</label>
+      <input class="form-input" type="tel" id="fTel" placeholder="(47) 99999-9999" oninput="mascaraTel(this)">
+    </div>
+    <div class="form-group" id="wrapCPF">
+      <label class="form-label">🪪 CPF <span style="font-weight:600;font-size:11px;color:var(--text-muted)">(opcional)</span></label>
+      <input class="form-input" type="text" id="fCPF" placeholder="000.000.000-00" oninput="mascaraCPF(this)">
+    </div>
+
+    <div id="enderecoFields">
+      <div style="height:1px;background:var(--cream-dark);margin:16px 0"></div>
+      <p style="font-size:12px;font-weight:800;color:var(--green-dark);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">📍 Endereço de entrega</p>
+      <div class="form-group">
+        <label class="form-label">Cidade</label>
+        <input class="form-input" type="text" id="fCidade" placeholder="Ex: Blumenau">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Bairro</label>
+        <input class="form-input" type="text" id="fBairro" placeholder="Seu bairro">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Rua</label>
+          <input class="form-input" type="text" id="fRua" placeholder="Nome da rua">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Número</label>
+          <input class="form-input" type="text" id="fNum" placeholder="Nº">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Complemento <span style="font-weight:600;font-size:11px;color:var(--text-muted)">(opcional)</span></label>
+        <input class="form-input" type="text" id="fCompl" placeholder="Apto, bloco, referência...">
+      </div>
+      <div class="aviso-pag" style="background:#e8f5e9;border-color:var(--green)">
+        <div class="aviso-icon">ℹ️</div>
+        <div class="aviso-text" style="color:#1a4d2e">A taxa de entrega é informada pelo atendente após confirmação do pedido, conforme seu bairro.</div>
+      </div>
+    </div>
+  </div>
+
+  <button class="next-btn" id="btnEntrega" onclick="validarEntrega()">
+    PRÓXIMO: FORMA DE PAGAMENTO →
+  </button>
+</section>
+
+<!-- PAGAMENTO -->
+<section class="section flow-section hidden" id="secPagamento">
+  <div class="section-header">
+    <div class="section-icon">💳</div>
+    <div>
+      <div class="section-step">Passo 7</div>
+      <div class="section-title">PAGAMENTO</div>
+    </div>
+  </div>
+  <div class="aviso-pag">
+    <div class="aviso-icon">⚠️</div>
+    <div class="aviso-text">O pagamento é realizado na entrega ou retirada. Selecione como deseja pagar.</div>
+  </div>
+  <div class="pag-grid">
+    <div class="pag-card" onclick="selecionarPag('dinheiro')" data-pag="dinheiro">
+      <div class="pag-emoji">💵</div>
+      <div>
+        <div class="pag-name">Dinheiro</div>
+        <div class="pag-desc">Informe o valor para troco</div>
+      </div>
+      <div class="pag-radio"></div>
+    </div>
+    <div class="troco-wrap" id="trocoWrap">
+      <label class="form-label">💰 Troco para quanto?</label>
+      <input class="form-input" type="number" id="fTroco" placeholder="Ex: 100.00" min="0" step="0.01">
+    </div>
+    <div class="pag-card" onclick="selecionarPag('pix')" data-pag="pix">
+      <div class="pag-emoji">📱</div>
+      <div>
+        <div class="pag-name">PIX</div>
+        <div class="pag-desc">Pagamento instantâneo</div>
+      </div>
+      <div class="pag-radio"></div>
+    </div>
+    <div class="pag-card" onclick="selecionarPag('cartao')" data-pag="cartao">
+      <div class="pag-emoji">💳</div>
+      <div>
+        <div class="pag-name">Cartão</div>
+        <div class="pag-desc">Débito ou crédito na entrega</div>
+      </div>
+      <div class="pag-radio"></div>
+    </div>
+  </div>
+  <button class="next-btn" id="btnPagamento" disabled onclick="scrollToSection('secRevisao')">
+    PRÓXIMO: REVISAR PEDIDO →
+  </button>
+</section>
+
+<!-- REVISÃO -->
+<section class="section flow-section hidden" id="secRevisao">
+  <div class="section-header">
+    <div class="section-icon">📋</div>
+    <div>
+      <div class="section-step">Passo 8</div>
+      <div class="section-title">REVISÃO DO PEDIDO</div>
+    </div>
+  </div>
+
+  <div class="revisao-card" id="revisaoContent">
+    <!-- preenchido via JS -->
+  </div>
+
+  <div class="total-row">
+    <div class="total-label">TOTAL</div>
+    <div class="total-val" id="totalFinal">R$ 0,00</div>
+  </div>
+
+  <div class="aviso-pag">
+    <div class="aviso-icon">🔒</div>
+    <div class="aviso-text">Pedido confirmado pelo WhatsApp. Pagamento na entrega. Tempo estimado: 40–60 min.</div>
+  </div>
+
+  <button class="whatsapp-btn" onclick="enviarWhatsApp()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    CONFIRMAR VIA WHATSAPP
+  </button>
+</section>
+
+<footer>
+  <div>🍕 <span>DECK R</span> Restaurante & Bar</div>
+  <div style="margin-top:4px">Terça a Domingo · 17h30 às 23h00</div>
+</footer>
+
+<script>
+// ===== DADOS =====
+const TAMANHOS = {
+  mini:    {label:'Mini',    cm:'20cm',fatias:'4 fatias',sabores:1,trad:8,   mais:null},
+  broto:   {label:'Broto',   cm:'20cm',fatias:'4 fatias',sabores:1,trad:34,  mais:60},
+  pequena: {label:'Pequena', cm:'25cm',fatias:'6 fatias',sabores:2,trad:45,  mais:85},
+  media:   {label:'Média',   cm:'30cm',fatias:'8 fatias',sabores:2,trad:60,  mais:105},
+  grande:  {label:'Grande',  cm:'35cm',fatias:'12 fatias',sabores:3,trad:75, mais:120},
+  gigante: {label:'Gigante', cm:'45cm',fatias:'16 fatias',sabores:4,trad:85, mais:140},
+};
+const BORDAS_PRECO = {sem:0,calabresa:10,catupiry:15,cheddar:15,mussarela:12,choc_preto:20,choc_branco:20};
+const BEBIDAS_PRECO = {coca_lata:6,coca_2l:12,agua:4,suco:8,cerveja:9,energetico:10};
+const BEBIDAS_NOME  = {coca_lata:'Coca-Cola Lata',coca_2l:'Coca-Cola 2L',agua:'Água Mineral',suco:'Suco Natural',cerveja:'Cerveja Long Neck',energetico:'Energético'};
+const BORDAS_NOME   = {sem:'Sem borda',calabresa:'Calabresa',catupiry:'Catupiry',cheddar:'Cheddar',mussarela:'Mussarela',choc_preto:'Chocolate Preto',choc_branco:'Chocolate Branco'};
+
+const SABORES_DB = {
+  tradicionais:[
+    'Alemã','Alho e Óleo','América','Azeitona','Azeitona com Cebola','Bacon','Bacon com Batata Palha','Bacon com Catupiry','Bacon com Cheddar','Bacon com Ovos','Bacon VIP','Baiana','Bolonhesa','Bolonhesa com Milho','Bolonhesa com Batata Palha','Brócolis com Alho','Brócolis com Bacon','Brócolis com Calabresa','Brócolis com Catupiry','Brócolis com Cheddar','Brócolis ao Molho Branco','Calabresa','Calabresa com Cebola','Calabresa com Catupiry','Calabresa com Cebola e Alho','Calabresa com Cheddar','Calabresa Ralada e Ovo','Calabresa VIP','Cálibra','Canadense','Catupiry','Cebola na Manteiga','Cheddar','4 Queijos','5 Queijos','Chester com Catupiry','Chester com Cheddar','Chester com Cebola','Chester com Palmito','Deck R','Frango com Cheddar','Frango com Milho','Frango com Palmito','Frango VIP','Frango Xadrez','Linguiça Blumenau com Catupiry','Linguiça Blumenau com Cheddar','Linguiça Blumenau com Cebola','Lombo com Catupiry','Lombo com Cebola','Lombo com Cheddar','Lombo VIP','Marguerita','Mexicana','Milho','Milho com Catupiry','Milho com Cheddar','Moda do Pizzaiolo','Mussarela','Napolitana','Palmito','Palmito ao Molho Branco','Paulista','Portuguesa','Provolone','Romana','Vegetariana',
+  ],
+  especiais:[
+    'Apimentada','Atum','Atum com Cebola','Atum com Ovos','Atum VIP','Brasileira','Champignon com Catupiry','Champignon com Cheddar','Champignon com Milho','Coração com Cebola','Coração com Alho','Coreana','Deck R II','Deck R III','Doritos com Cheddar','Doritos','Filé com Cebola','Filé','Filé Alho e Óleo','Filé com Catupiry','Gorgonzola','Itália','Moda da Casa','Pepperoni','Pepperoni com Cebola','Pepperoni com Cheddar','Pepperoni com Catupiry','Salaminho Italiano','Salaminho Italiano com Cebola','Salaminho Italiano com Cheddar','Salaminho Italiano com Catupiry','Strogonoff de Frango','Strogonoff de Carne','Siciliana','Tomate Seco com Filé','Tomate Seco com Rúcula','Toscana','6 Queijos','Vegetariana VIP',
+  ],
+  doces:[
+    'Abacaxi e Chocolate Branco','Abacaxi e Chocolate Preto','Abacaxi e Creme de Avelã','Banana','Banana e Chocolate Branco','Banana e Chocolate Preto','Banana e Creme de Avelã','Bis Branco','Bis Preto','Brigadeiro','Charge e Chocolate Branco','Charge e Chocolate Preto','Chocolate Branco','Chocolate Preto','Coco Ralado e Chocolate Branco','Coco Ralado e Chocolate Preto','Confetti','Dois Amores','Morango e Chocolate Branco','Morango e Chocolate Preto','Morango e Creme de Avelã','Ouro Branco','Sonho de Valsa',
+  ]
+};
+
+// ===== STATE =====
+let state = {
+  tamanho:null,
+  recheio:null,
+  sabores:[],
+  borda:'sem',
+  bebidas:{},
+  entrega:'entrega',
+  nome:'',tel:'',cpf:'',
+  cidade:'',bairro:'',rua:'',num:'',compl:'',
+  pagamento:null,
+  troco:'',
+  ofertaAtiva:false,
+  filtroAtivo:'todos',
+};
+let totalPedido = 0;
+
+// ===== OFERTA =====
+function ativarOferta(){
+  state.ofertaAtiva = true;
+  selecionarTamanho('gigante');
+  document.getElementById('ofertaAtivaBanner').classList.remove('hidden');
+  document.getElementById('promoCard').style.opacity='0.6';
+  showToast('🎉 Oferta ativada! Gigante selecionada.');
+  scrollToSection('secRecheio');
+}
+
+// ===== TAMANHO =====
+function selecionarTamanho(key){
+  state.tamanho = key;
+  state.sabores = [];
+  state.recheio = null;
+  document.querySelectorAll('.size-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`.size-card[data-size="${key}"]`).classList.add('selected');
+
+  const t = TAMANHOS[key];
+  // Atualiza preços recheio
+  document.getElementById('preco_trad').textContent = `R$ ${t.trad},00`;
+  document.getElementById('preco_mais').textContent = t.mais ? `R$ ${t.mais},00` : '—';
+  document.getElementById('cardMaisRecheio').style.opacity = t.mais ? '1' : '.4';
+  document.getElementById('cardMaisRecheio').style.pointerEvents = t.mais ? 'auto' : 'none';
+
+  document.getElementById('btnTamanho').disabled = false;
+  atualizarSteps(1);
+  updateCartBadge();
+}
+
+// ===== RECHEIO =====
+function selecionarRecheio(tipo){
+  if(tipo==='mais_recheio' && !TAMANHOS[state.tamanho].mais) return;
+  state.recheio = tipo;
+  document.querySelectorAll('.recheio-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`.recheio-card[data-recheio="${tipo}"]`).classList.add('selected');
+  document.getElementById('btnRecheio').disabled = false;
+  atualizarSteps(2);
+
+  // atualiza limite e contador
+  const lim = TAMANHOS[state.tamanho].sabores;
+  document.getElementById('limiteInfo').textContent = `Máx. ${lim} sabor${lim>1?'es':''}`;
+  document.getElementById('contSabores').textContent = `0 / ${lim}`;
+}
+
+// ===== SABORES =====
+let filtroSabores = 'todos';
+let buscaSabor = '';
+
+function buildSaboresList(){
+  const lim = state.tamanho ? TAMANHOS[state.tamanho].sabores : 1;
+  let lista = [];
+  if(filtroSabores==='todos'){
+    lista = [
+      ...SABORES_DB.tradicionais.map(n=>({n,cat:'Tradicional'})),
+      ...SABORES_DB.especiais.map(n=>({n,cat:'Especial (+R$8)'})),
+      ...SABORES_DB.doces.map(n=>({n,cat:'Doce'})),
+    ];
+  } else if(filtroSabores==='tradicionais'){
+    lista = SABORES_DB.tradicionais.map(n=>({n,cat:'Tradicional'}));
+  } else if(filtroSabores==='especiais'){
+    lista = SABORES_DB.especiais.map(n=>({n,cat:'Especial (+R$8)'}));
+  } else {
+    lista = SABORES_DB.doces.map(n=>({n,cat:'Doce'}));
+  }
+  if(buscaSabor){
+    lista = lista.filter(s=>s.n.toLowerCase().includes(buscaSabor.toLowerCase()));
+  }
+  const container = document.getElementById('saboresList');
+  container.innerHTML = lista.map(s=>{
+    const sel = state.sabores.includes(s.n);
+    const dis = !sel && state.sabores.length >= lim;
+    return `<div class="sabor-item${sel?' selected':''}${dis?' disabled':''}" onclick="toggleSabor('${s.n.replace(/'/g,"\\'")}')">
+      <div>
+        <div class="sabor-name">${s.n}</div>
+        <div class="sabor-cat">${s.cat}</div>
+      </div>
+      <div class="sabor-check">${sel?'✓':''}</div>
+    </div>`;
+  }).join('');
+}
+
+function filtrarSabores(f){
+  filtroSabores = f;
+  state.filtroAtivo = f;
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  buildSaboresList();
+}
+
+function buscarSabor(v){
+  buscaSabor = v;
+  buildSaboresList();
+}
+
+function toggleSabor(nome){
+  const lim = TAMANHOS[state.tamanho].sabores;
+  const idx = state.sabores.indexOf(nome);
+  if(idx>=0){
+    state.sabores.splice(idx,1);
+  } else {
+    if(state.sabores.length>=lim){ showToast(`Máximo ${lim} sabor${lim>1?'es':''} para essa pizza!`); return; }
+    state.sabores.push(nome);
+  }
+  const n = state.sabores.length;
+  document.getElementById('contSabores').textContent = `${n} / ${lim}`;
+  document.getElementById('progressBar').style.width = `${(n/lim)*100}%`;
+  document.getElementById('btnSabores').disabled = n===0;
+  buildSaboresList();
+  atualizarSteps(3);
+  updateCartBadge();
+}
+
+// ===== BORDA =====
+function selecionarBorda(key){
+  state.borda = key;
+  document.querySelectorAll('.borda-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`.borda-card[data-borda="${key}"]`).classList.add('selected');
+  atualizarSteps(4);
+}
+
+// ===== BEBIDAS =====
+function ajBeb(key,delta){
+  state.bebidas[key] = Math.max(0,(state.bebidas[key]||0)+delta);
+  document.getElementById(`qb_${key}`).textContent = state.bebidas[key];
+  atualizarSteps(5);
+  updateCartBadge();
+}
+
+// ===== ENTREGA =====
+function selecionarEntrega(tipo){
+  state.entrega = tipo;
+  document.querySelectorAll('.entrega-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`.entrega-card[data-ent="${tipo}"]`).classList.add('selected');
+  document.getElementById('enderecoFields').style.display = tipo==='entrega' ? 'block' : 'none';
+}
+
+function validarEntrega(){
+  state.nome = document.getElementById('fNome').value.trim();
+  state.tel  = document.getElementById('fTel').value.trim();
+  state.cpf  = document.getElementById('fCPF').value.trim();
+  if(!state.nome){ showToast('⚠️ Informe seu nome!'); return; }
+  if(!state.tel){  showToast('⚠️ Informe seu telefone!'); return; }
+  if(state.entrega==='entrega'){
+    state.cidade  = document.getElementById('fCidade').value.trim();
+    state.bairro  = document.getElementById('fBairro').value.trim();
+    state.rua     = document.getElementById('fRua').value.trim();
+    state.num     = document.getElementById('fNum').value.trim();
+    state.compl   = document.getElementById('fCompl').value.trim();
+    if(!state.cidade||!state.bairro||!state.rua||!state.num){ showToast('⚠️ Preencha o endereço completo!'); return; }
+  }
+  atualizarSteps(6);
+  scrollToSection('secPagamento');
+}
+
+// ===== PAGAMENTO =====
+function selecionarPag(tipo){
+  state.pagamento = tipo;
+  document.querySelectorAll('.pag-card').forEach(c=>c.classList.remove('selected'));
+  document.querySelector(`.pag-card[data-pag="${tipo}"]`).classList.add('selected');
+  document.getElementById('trocoWrap').classList.toggle('show', tipo==='dinheiro');
+  document.getElementById('btnPagamento').disabled = false;
+  atualizarSteps(7);
+}
+
+// ===== REVISÃO =====
+function calcTotal(){
+  if(!state.tamanho||!state.recheio) return 0;
+  const t = TAMANHOS[state.tamanho];
+  let tot = state.recheio==='mais_recheio' ? t.mais : t.trad;
+  // especiais +8 por sabor
+  state.sabores.forEach(s=>{ if(SABORES_DB.especiais.includes(s)) tot+=8; });
+  tot += BORDAS_PRECO[state.borda]||0;
+  Object.entries(state.bebidas).forEach(([k,v])=>{ tot += (BEBIDAS_PRECO[k]||0)*v; });
+  return tot;
+}
+
+function gerarRevisao(){
+  if(!state.tamanho) return;
+  const t = TAMANHOS[state.tamanho];
+  totalPedido = calcTotal();
+  let html = `<div class="revisao-title">🍕 Pizza</div>`;
+  html += row('Tamanho', `${t.label} (${t.cm} · ${t.fatias})`);
+  html += row('Recheio', state.recheio==='mais_recheio'?'+ Recheio Extra':'Tradicional');
+  html += row('Sabores', state.sabores.join(', ')||'—');
+  html += row('Borda', BORDAS_NOME[state.borda]);
+
+  const bebs = Object.entries(state.bebidas).filter(([,v])=>v>0);
+  if(bebs.length){
+    html += `<div class="revisao-title" style="margin-top:14px">🥤 Bebidas</div>`;
+    bebs.forEach(([k,v])=>html+=row(BEBIDAS_NOME[k],`${v}x`));
+  }
+  html += `<div class="revisao-title" style="margin-top:14px">📦 Entrega</div>`;
+  html += row('Tipo', state.entrega==='entrega'?'Entrega em domicílio':'Retirada no local');
+  html += row('Nome', state.nome);
+  if(state.cpf) html += row('CPF', state.cpf);
+  html += row('WhatsApp', state.tel);
+  if(state.entrega==='entrega'){
+    html += row('Endereço', `${state.rua}, ${state.num}${state.compl?' – '+state.compl:''}`);
+    html += row('Bairro/Cidade', `${state.bairro}, ${state.cidade}`);
+  }
+  html += `<div class="revisao-title" style="margin-top:14px">💳 Pagamento</div>`;
+  const pagNomes = {dinheiro:'Dinheiro',pix:'PIX',cartao:'Cartão'};
+  html += row('Forma', pagNomes[state.pagamento]||'—');
+  if(state.pagamento==='dinheiro'){
+    const troco = document.getElementById('fTroco').value;
+    if(troco) html += row('Troco para', `R$ ${parseFloat(troco).toFixed(2)}`);
+  }
+
+  document.getElementById('revisaoContent').innerHTML = html;
+  document.getElementById('totalFinal').textContent = `R$ ${totalPedido.toFixed(2).replace('.',',')}`;
+  atualizarSteps(8);
+}
+
+function row(k,v){
+  return `<div class="revisao-row"><span class="revisao-key">${k}</span><span class="revisao-val">${v}</span></div>`;
+}
+
+// ===== WHATSAPP =====
+function enviarWhatsApp(){
+  const t = TAMANHOS[state.tamanho];
+  const bebs = Object.entries(state.bebidas).filter(([,v])=>v>0)
+    .map(([k,v])=>`${v}x ${BEBIDAS_NOME[k]}`).join(', ');
+  const pagNomes = {dinheiro:'Dinheiro',pix:'PIX',cartao:'Cartão'};
+  const troco = state.pagamento==='dinheiro' && document.getElementById('fTroco').value
+    ? ` (troco para R$ ${parseFloat(document.getElementById('fTroco').value).toFixed(2)})` : '';
+
+  let msg = `🍕 *NOVO PEDIDO – DECK R*\n\n`;
+  msg += `*PIZZA*\n`;
+  msg += `• Tamanho: ${t.label} (${t.cm} · ${t.fatias} · ${t.sabores} sabor${t.sabores>1?'es':''})\n`;
+  msg += `• Recheio: ${state.recheio==='mais_recheio'?'+ Recheio Extra':'Tradicional'}\n`;
+  msg += `• Sabores: ${state.sabores.join(' | ')}\n`;
+  msg += `• Borda: ${BORDAS_NOME[state.borda]}\n`;
+  if(bebs) msg += `\n*BEBIDAS*\n• ${bebs}\n`;
+  msg += `\n*ENTREGA*\n`;
+  msg += `• Tipo: ${state.entrega==='entrega'?'Entrega':'Retirada no local'}\n`;
+  if(state.entrega==='entrega'){
+    msg += `• Endereço: ${state.rua}, ${state.num}`;
+    if(state.compl) msg += ` – ${state.compl}`;
+    msg += `\n• Bairro: ${state.bairro}\n• Cidade: ${state.cidade}\n`;
+  }
+  msg += `\n*CLIENTE*\n`;
+  msg += `• Nome: ${state.nome}\n`;
+  msg += `• WhatsApp: ${state.tel}\n`;
+  if(state.cpf) msg += `• CPF: ${state.cpf}\n`;
+  msg += `\n*PAGAMENTO*: ${pagNomes[state.pagamento]||'—'}${troco}\n`;
+  msg += `\n💰 *TOTAL: R$ ${totalPedido.toFixed(2).replace('.',',')}*\n`;
+  msg += `_(+ taxa de entrega conforme bairro)_`;
+
+  const numero = '5547992760502'; // ← SUBSTITUA pelo número real do restaurante
+  const url = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
+  window.open(url,'_blank');
+}
+
+// ===== SCROLL / SECTIONS =====
+const SECOES = ['secTamanho','secRecheio','sabores','secBorda','secBebidas','secEntrega','secPagamento','secRevisao'];
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  el.classList.remove('hidden');
+  setTimeout(()=>el.scrollIntoView({behavior:'smooth',block:'start'}),50);
+  if(id==='secRevisao') gerarRevisao();
+}
+
+// ===== STEPS =====
+function atualizarSteps(step){
+  for(let i=1;i<=8;i++){
+    const d = document.getElementById(`sd${i}`);
+    if(i<step) d.className='step-dot done';
+    else if(i===step) d.className='step-dot active';
+    else d.className='step-dot pending';
+  }
+}
+
+// ===== CART BADGE =====
+function updateCartBadge(){
+  const b = document.getElementById('cartBadge');
+  if(state.tamanho){
+    b.style.display='flex';
+    b.textContent=state.sabores.length||'!';
+  }
+}
+
+// ===== MASKS =====
+function mascaraTel(el){
+  let v=el.value.replace(/\D/g,'');
+  if(v.length>11)v=v.slice(0,11);
+  if(v.length>6) v=`(${v.slice(0,2)}) ${v.slice(2,7)}-${v.slice(7)}`;
+  else if(v.length>2) v=`(${v.slice(0,2)}) ${v.slice(2)}`;
+  else if(v.length>0) v=`(${v}`;
+  el.value=v;
+}
+function mascaraCPF(el){
+  let v=el.value.replace(/\D/g,'');
+  if(v.length>11)v=v.slice(0,11);
+  if(v.length>9) v=`${v.slice(0,3)}.${v.slice(3,6)}.${v.slice(6,9)}-${v.slice(9)}`;
+  else if(v.length>6) v=`${v.slice(0,3)}.${v.slice(3,6)}.${v.slice(6)}`;
+  else if(v.length>3) v=`${v.slice(0,3)}.${v.slice(3)}`;
+  el.value=v;
+}
+
+// ===== TOAST =====
+function showToast(msg){
+  const t=document.createElement('div');
+  t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2800);
+}
+
+// ===== INIT =====
+document.getElementById('enderecoFields').style.display='block';
+buildSaboresList();
+</script>
+</body>
+</html>
