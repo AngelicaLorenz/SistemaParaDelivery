@@ -7,6 +7,26 @@ Um sistema dinâmico e interativo de montagem de pedidos desenvolvido sob medida
 
 ---
 
+## 📸 Telas do Sistema
+
+<table>
+  <tr>
+    <td><img src="img/tela1.png" width="250"></td>
+    <td><img src="img/tela2.png" width="250"></td>
+    <td><img src="img/tela3.png" width="250"></td>
+    <td><img src="img/tela4.png" width="250"></td>
+   <td><img src="img/tela5.png" width="250"></td>
+  </tr>
+ <tr>    
+    <td><img src="img/tela6.png" width="250"></td>
+    <td><img src="img/tela7.png" width="250"></td>
+    <td><img src="img/tela8.png" width="250"></td>
+    <td><img src="img/tela9.png" width="250"></td>      
+  </tr>
+</table>
+
+---
+
 ## 🚀 Demonstração
 
 Visualizar o projeto na prática: [Acesse o Deck R via GitHub Pages](https://angelicalorenz.github.io/SistemaParaDelivery/)
